@@ -3,6 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/smart-face-api.umd.js",
+  "module": "./dist/smart-face-api.es.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/smart-face-api.es.js",
+      "require": "./dist/smart-face-api.umd.js"
+    }
+  },
+  "types": "./dist/main.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -18,5 +30,8 @@
     "prettier": "^2.8.8",
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
+  },
+  "dependencies": {
+    "@types/node": "^18.16.3"
   }
 }
