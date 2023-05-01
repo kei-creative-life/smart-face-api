@@ -33,6 +33,7 @@
     "vite": "^4.3.2"
   },
   "dependencies": {
+    "@tensorflow-models/body-pix": "2.0",
     "@tensorflow/tfjs": "^4.4.0",
     "@types/node": "^18.16.3"
   }
