@@ -1,7 +1,19 @@
 import * as tf from '@tensorflow/tfjs'
+import * as bodyPix from '@tensorflow-models/body-pix'
 import { convertCanvasDataToTensor } from './utils/canvas'
 import { Metadata } from '../types/TensorFlow'
 import { CLASSES } from './label'
+
+// Bokeh Image
+export const blurImage = async (input: HTMLImageElement, output: HTMLCanvasElement) => {
+  const bodypixnet = await bodyPix.load()
+  const segmentation = await bodypixnet.segmentPerson(input)
+  const backgroundBlurAmount = 3
+  const edgeBlurAmount = 3
+  const flipHorizontal = false
+
+  bodyPix.drawBokehEffect(output, input, segmentation, backgroundBlurAmount, edgeBlurAmount, flipHorizontal)
+}
 
 const isMetadata = (c: any): c is Metadata => !!c && Array.isArray(c.labels)
 

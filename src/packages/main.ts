@@ -2,8 +2,13 @@ import * as TensorFlowModule from './TensorFlow'
 
 export { TensorFlowModule }
 
+const getImage = document.getElementById('sample') as HTMLImageElement
+const canvas = document.getElementById('detection') as HTMLCanvasElement
+
+// Bokeh Image
+TensorFlowModule.blurImage(getImage, canvas)
+
 // SSD Test
-// const getImage = document.getElementById('mask') as HTMLImageElement
 // const defaultDetectionStyle = {
 //   fontSize: '16px',
 //   fontFamily: 'sans-serif',
