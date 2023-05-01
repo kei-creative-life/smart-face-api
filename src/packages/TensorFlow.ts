@@ -1,4 +1,5 @@
 import * as tf from '@tensorflow/tfjs'
+import * as faceLandmarksDetection from '@tensorflow-models/face-landmarks-detection'
 import { convertCanvasDataToTensor } from './utils/canvas'
 import { Metadata } from '../types/TensorFlow'
 import { CLASSES } from './label'
@@ -15,6 +16,20 @@ const fillMetadata = (data: Partial<Metadata>) => {
   data.imageSize = data.imageSize || 224
 
   return data as Metadata
+}
+
+export const runFaceDetect = async (img: any) => {
+  const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh
+  const detectorConfig = {
+    runtime: 'tfjs', // or 'tfjs'
+    refineLandmarks: true,
+    solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
+  }
+  const detector = await faceLandmarksDetection.createDetector(model, detectorConfig)
+
+  const faces = await detector.estimateFaces(img)
+
+  return faces
 }
 
 const analyzeMetadata = async (metadata: string | Metadata) => {
