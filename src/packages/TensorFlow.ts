@@ -5,14 +5,27 @@ import { Metadata } from '../types/TensorFlow'
 import { CLASSES } from './label'
 
 // Bokeh Image
-export const blurImage = async (input: HTMLImageElement, output: HTMLCanvasElement) => {
-  const bodypixnet = await bodyPix.load()
-  const segmentation = await bodypixnet.segmentPerson(input)
-  const backgroundBlurAmount = 3
-  const edgeBlurAmount = 3
-  const flipHorizontal = false
+export interface BlurImageOption {
+  backgroundBlurValue?: number
+  edgeBlurValue?: number
+  flipHorizontalValue?: boolean
+}
 
-  bodyPix.drawBokehEffect(output, input, segmentation, backgroundBlurAmount, edgeBlurAmount, flipHorizontal)
+const BlurImageOptionDefaults = {
+  backgroundBlurValue: 3,
+  edgeBlurValue: 3,
+  flipHorizontalValue: false,
+}
+
+export const blurImage = async (inputImage: HTMLImageElement, outputCanvas: HTMLCanvasElement, options = {} as Partial<BlurImageOption>) => {
+  const { backgroundBlurValue, edgeBlurValue, flipHorizontalValue } = { ...BlurImageOptionDefaults, ...options }
+  const bodypixnet = await bodyPix.load()
+  const segmentation = await bodypixnet.segmentPerson(inputImage)
+  const backgroundBlurAmount = backgroundBlurValue
+  const edgeBlurAmount = edgeBlurValue
+  const flipHorizontal = flipHorizontalValue
+
+  bodyPix.drawBokehEffect(outputCanvas, inputImage, segmentation, backgroundBlurAmount, edgeBlurAmount, flipHorizontal)
 }
 
 const isMetadata = (c: any): c is Metadata => !!c && Array.isArray(c.labels)
